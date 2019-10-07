@@ -1,10 +1,7 @@
 package com.pratima.todoly;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import static java.lang.System.exit;
-import static java.lang.System.setOut;
 
 public class TodoEngine {
     private Scanner input = new Scanner(System.in);
@@ -19,12 +16,7 @@ public class TodoEngine {
                     taskList.printAllTasks();
                     break;
                 case "2":
-                    System.out.print("Enter task name: ");
-                    String taskName = input.nextLine();
-                    System.out.print("Enter finish date(yyyy-MM-dd HH:mm): ");
-                    String finishDate = input.nextLine();
-                    taskList.addTask(taskName, finishDate);
-                    System.out.println("Task added successfully");
+                    addTask();
                     break;
                 case "3":
                     System.out.println("3");
@@ -47,14 +39,23 @@ public class TodoEngine {
         } while (true);
     }
 
+    private void addTask() {
+        System.out.print("Enter task name: ");
+        String taskName = input.nextLine();
+        System.out.print("Enter finish date(yyyy-MM-dd HH:mm): ");
+        String finishDate = input.nextLine();
+        taskList.addTask(taskName, finishDate);
+        System.out.println("Task added successfully");
+    }
+
     private void showMenu() {
         System.out.println("**** Welcome to the ToDoLy ****");
         System.out.println("1.View All Task");
         System.out.println("2.Add New Task");
-        System.out.println("3.Edit Task");
-        System.out.println("4.Remove Task");
+        System.out.println("3.Remove Task");
+        System.out.println("4.Edit Task Name");
         System.out.println("5.Change Date of Task");
-        System.out.println("6.change Time of Task");
+        System.out.println("6.Change Time of Task");
         System.out.println("7.Exit");
     }
 }
