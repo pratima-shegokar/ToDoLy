@@ -4,13 +4,19 @@ import java.util.Scanner;
 import static java.lang.System.exit;
 
 public class TodoEngine {
-    private Scanner input = new Scanner(System.in);
-    TaskList taskList = new TaskList();
+
+    private static final Scanner STDIN = new Scanner(System.in);
+    private TaskList taskList = new TaskList();
+
+    public TodoEngine() {
+        this.taskList = new TaskList();
+    }
+
     public void displayMenu() {
         String chosenOption;
         do {
             showMenu();
-            chosenOption = input.nextLine().trim();
+            chosenOption = STDIN.nextLine().trim();
             switch (chosenOption) {
                 case "1":
                     taskList.printAllTasks();
@@ -38,7 +44,7 @@ public class TodoEngine {
 
     private void updateTask() {
         System.out.print("Enter task name to update: ");
-        String taskName = input.nextLine();
+        String taskName = STDIN.nextLine();
         if(taskList.updateTask(taskName)) {
             System.out.println("Task Updated.");
         }
@@ -49,7 +55,7 @@ public class TodoEngine {
 
     private void markAsDone() {
         System.out.print("Enter task name to mark it finished: ");
-        String taskName = input.nextLine();
+        String taskName = STDIN.nextLine();
         if(taskList.markFinished(taskName)) {
             System.out.println("Yay! You completed the task.");
         }
@@ -60,15 +66,15 @@ public class TodoEngine {
 
     private void addTask() {
         System.out.print("Enter task name: ");
-        String taskName = input.nextLine();
+        String taskName = STDIN.nextLine();
         System.out.print("Enter finish date(yyyy-MM-dd HH:mm)(default:24hrs): ");
-        String finishDate = input.nextLine();
+        String finishDate = STDIN.nextLine();
         taskList.addTask(taskName, finishDate);
         System.out.println("Task added successfully");
     }
     private void removeTask() {
         System.out.println("Task name to delete: ");
-        String taskName =input.nextLine();
+        String taskName = STDIN.nextLine();
         if (taskList.removeTask(taskName)) {
             System.out.println("Task Deleted");
         }
@@ -86,5 +92,9 @@ public class TodoEngine {
         System.out.println("4.Update Task");
         System.out.println("5.Mark Task As Done");
         System.out.println("6.Exit");
+    }
+
+    public void initializeEngine(FileManager fileManager) {
+            
     }
 }
