@@ -1,9 +1,7 @@
 package com.pratima.todoly;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 public class Task {
     private String taskName;

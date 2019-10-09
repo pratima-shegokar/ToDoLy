@@ -22,7 +22,7 @@ public class TodoEngine {
                     removeTask();
                     break;
                 case "4":
-                    System.out.println("4");
+                    updateTask();
                     break;
                 case "5":
                     markAsDone();
@@ -34,6 +34,17 @@ public class TodoEngine {
                     System.out.println("Invalid Option Chosen!");
             }
         } while (true);
+    }
+
+    private void updateTask() {
+        System.out.print("Enter task name to update: ");
+        String taskName = input.nextLine();
+        if(taskList.updateTask(taskName)) {
+            System.out.println("Task Updated.");
+        }
+        else {
+            System.out.println("Task does not exists!");
+        }
     }
 
     private void markAsDone() {
