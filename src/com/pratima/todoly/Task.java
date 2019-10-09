@@ -59,7 +59,7 @@ public class Task {
 
     @Override
     public String toString() {
-        String returnValue = taskName += " - ";
+        String returnValue = taskName + " - ";
         if(!isFinished) {
             returnValue += timeLeft(completionTime);
         }
