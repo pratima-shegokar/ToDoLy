@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskList {
-
     private List<Task> tasksList;
     private static final DateTimeFormatter formatter
             = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -16,6 +15,10 @@ public class TaskList {
     public TaskList() {
         this.tasksList = new ArrayList<>();
     }
+    public TaskList(List<Task> tasksList) {
+        this.tasksList = tasksList;
+    }
+
 
     public List<Task> getTasksList() {
         return tasksList;
@@ -23,7 +26,6 @@ public class TaskList {
 
     public void addTask(String taskName, String completionDateString) {
         LocalDateTime completionDate;
-        //TODO:Parsing datetime to be done by Task
         try {
             completionDate = LocalDateTime.parse(completionDateString, formatter);
         } catch (DateTimeParseException e) {
@@ -41,15 +43,15 @@ public class TaskList {
     }
 
     public boolean markFinished(String taskName) {
-        Task taskToMarkAsFinished = getTask(taskName);
-        if(taskToMarkAsFinished != null) {
-            return taskToMarkAsFinished.markFinished();
+        int taskIndex = tasksList.indexOf(new Task(taskName));
+        if(taskIndex != -1){
+            tasksList.get(taskIndex).markFinished();
+            return true;
         }
         return false;
     }
 
     public boolean updateTask(String taskName) {
-        //TODO: Use getTask
         Scanner input = new Scanner(System.in);
         Task taskToUpdate = getTask(taskName);
         if(taskToUpdate != null){

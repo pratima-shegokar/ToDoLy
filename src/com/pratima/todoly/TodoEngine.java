@@ -6,7 +6,7 @@ import static java.lang.System.exit;
 public class TodoEngine {
 
     private static final Scanner STDIN = new Scanner(System.in);
-    private TaskList taskList = new TaskList();
+    private TaskList taskList;
 
     public TodoEngine() {
         this.taskList = new TaskList();
@@ -34,6 +34,7 @@ public class TodoEngine {
                     markAsDone();
                     break;
                 case "6":
+                    FileManager.getInstance().write(taskList);
                     System.out.println("Thank you for using ToDoLy!");
                     exit(0);
                 default:
@@ -94,7 +95,7 @@ public class TodoEngine {
         System.out.println("6.Exit");
     }
 
-    public void initializeEngine(FileManager fileManager) {
-            
+    public void initializeEngine() {
+        taskList = FileManager.getInstance().read();
     }
 }

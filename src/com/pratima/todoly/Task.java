@@ -1,9 +1,10 @@
 package com.pratima.todoly;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class Task {
+public class Task implements Serializable {
     private String taskName;
     private LocalDateTime completionTime;
     private LocalDateTime creationTime;
