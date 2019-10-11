@@ -2,7 +2,6 @@ package com.pratima.todoly;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 public class Task {
     private String taskName;
@@ -52,8 +51,8 @@ public class Task {
         return isFinished;
     }
 
-    public void markFinished() {
-        isFinished = true;
+    public boolean markFinished() {
+        return isFinished = true;
     }
 
     @Override

@@ -84,7 +84,7 @@ public class TodoEngine {
 
     }
 
-    private void showMenu() {
+    public void showMenu() {
         System.out.println("**** Welcome to the ToDoLy ****");
         System.out.println("1.View All Task");
         System.out.println("2.Add New Task");
