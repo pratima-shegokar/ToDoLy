@@ -8,12 +8,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskList {
+
     private List<Task> tasksList;
     private static final DateTimeFormatter formatter
             = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public TaskList() {
         this.tasksList = new ArrayList<>();
+    }
+
+    public List<Task> getTasksList() {
+        return tasksList;
     }
 
     public void addTask(String taskName, String completionDateString) {
@@ -26,7 +31,6 @@ public class TaskList {
         }
         tasksList.add(new Task(taskName, completionDate, LocalDateTime.now()));
     }
-    //TODO: Write getTask method
     public void printAllTasks() {
         for (Task aTask:tasksList) {
             System.out.println(aTask);
@@ -37,11 +41,9 @@ public class TaskList {
     }
 
     public boolean markFinished(String taskName) {
-        //TODO: Use getTask
-        int taskIndex = tasksList.indexOf(new Task(taskName));
-        if(taskIndex != -1){
-            tasksList.get(taskIndex).markFinished();
-            return true;
+        Task taskToMarkAsFinished = getTask(taskName);
+        if(taskToMarkAsFinished != null) {
+            return taskToMarkAsFinished.markFinished();
         }
         return false;
     }
@@ -49,17 +51,16 @@ public class TaskList {
     public boolean updateTask(String taskName) {
         //TODO: Use getTask
         Scanner input = new Scanner(System.in);
-        int taskIndex = tasksList.indexOf(new Task(taskName));
-        if(taskIndex != -1){
-            Task currentTask = tasksList.get(taskIndex);
+        Task taskToUpdate = getTask(taskName);
+        if(taskToUpdate != null){
             System.out.print("Enter new title(default:"
-                    + currentTask.getTaskName() + "): ");
+                    + taskToUpdate.getTaskName() + "): ");
             String newTaskName = input.nextLine().trim();
             if(newTaskName.length() == 0) {
-                newTaskName = currentTask.getTaskName();
+                newTaskName = taskToUpdate.getTaskName();
             }
             System.out.print("Enter new finish date(default:"
-                    + currentTask.getCompletionTime() + ")(format:yyyy-MM-dd HH:mm): ");
+                    + taskToUpdate.getCompletionTime() + ")(format:yyyy-MM-dd HH:mm): ");
             String newTaskCompletionTimeString = input.nextLine().trim();
             LocalDateTime newTaskCompletionTime;
             //TODO:Completion Date formatting should be delegated to Task
@@ -67,13 +68,20 @@ public class TaskList {
                 newTaskCompletionTime =
                         LocalDateTime.parse(newTaskCompletionTimeString, formatter);
             } catch (DateTimeParseException e) {
-                newTaskCompletionTime = currentTask.getCompletionTime();
+                newTaskCompletionTime = taskToUpdate.getCompletionTime();
             }
-            currentTask.setTaskName(newTaskName);
-            //TODO:String to be passed to setCompletionTime
-            currentTask.setCompletionTime(newTaskCompletionTime);
+            taskToUpdate.setTaskName(newTaskName);
+            taskToUpdate.setCompletionTime(newTaskCompletionTime);
             return true;
         }
         return false;
+    }
+
+    public Task getTask(String taskName){
+        int taskIndex = tasksList.indexOf(new Task(taskName));
+        if(taskIndex != -1){
+            return tasksList.get(taskIndex);
+        }
+        return null;
     }
 }

@@ -51,8 +51,8 @@ public class Task {
         return isFinished;
     }
 
-    public void markFinished() {
-        isFinished = true;
+    public boolean markFinished() {
+        return isFinished = true;
     }
 
     @Override
