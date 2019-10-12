@@ -13,14 +13,14 @@ class TaskListTest {
     private TaskList testTaskList = new TaskList();
 
     @BeforeEach
-    void simulateReadFromFile(){
+    void simulateReadFromFileTest(){
         testTaskList.addTask("testTask", "2019-11-01 00:00");
         testTaskList.addTask("dummyTask", "");
         testTaskList.addTask("moreTask", "2019-12-01 00:00");
     }
 
     @Test
-    void shouldAddToList() {
+    void shouldAddToListTest() {
         testTaskList.addTask("someOtherTestTask", "2019-11-02 00:00");
         assertEquals(4, testTaskList.getTasksList().size());
         Task testTask = testTaskList.getTask("someOtherTestTask");
@@ -30,7 +30,7 @@ class TaskListTest {
     }
 
     @Test
-    void shouldMarkATaskFinished() {
+    void shouldMarkATaskFinishedTest() {
         boolean done = testTaskList.markFinished("testTask");
         assertTrue(done);
         Task testTask = testTaskList.getTask("testTask");
@@ -38,14 +38,14 @@ class TaskListTest {
     }
 
     @Test
-    void shouldRemoveTaskFromList() {
+    void shouldRemoveTaskFromListTest() {
         testTaskList.removeTask("moreTask");
         assertEquals(2, testTaskList.getTasksList().size());
         assertNull(testTaskList.getTask("moreTask"));
     }
 
     @Test
-    void shouldPrintPretty() {
+    void shouldPrintPrettyTest() {
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         final PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
