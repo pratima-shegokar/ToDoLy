@@ -1,1 +1,3 @@
 language: java
+notifications:
+  slack: sda6-group-kth:ppAu6TffEznlLB32EVGfGXhC
