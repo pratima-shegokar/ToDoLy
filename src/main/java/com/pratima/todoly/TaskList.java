@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class TaskList {
     private List<Task> tasksList;
@@ -19,11 +20,21 @@ public class TaskList {
         this.tasksList = tasksList;
     }
 
-
+    /***
+     *
+     * @return getter for TasksList
+     */
     public List<Task> getTasksList() {
         return tasksList;
     }
 
+    /**
+     *
+     * Adds task to the list
+     *
+     * @param taskName The name of the task to be added
+     * @param completionDateString Expected completion date for the task
+     */
     public void addTask(String taskName, String completionDateString) {
         LocalDateTime completionDate;
         try {
@@ -39,7 +50,15 @@ public class TaskList {
         }
     }
     public boolean removeTask(String taskName){
-        return tasksList.remove(new Task(taskName));
+        //return tasksList.remove(new Task(taskName));
+        List<Task> newTaskList = tasksList.stream()
+                .filter(task -> !task.getTaskName().equalsIgnoreCase(taskName))
+                .collect(Collectors.toList());
+        if (newTaskList.size() < tasksList.size()) {
+            tasksList = newTaskList;
+            return true;
+        }
+        return false;
     }
 
     public boolean markFinished(String taskName) {
