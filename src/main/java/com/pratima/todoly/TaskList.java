@@ -31,18 +31,18 @@ public class TaskList {
     /**
      *
      * Adds task to the list
-     *
-     * @param taskName The name of the task to be added
+     *  @param taskName The name of the task to be added
      * @param completionDateString Expected completion date for the task
+     * @param project
      */
-    public void addTask(String taskName, String completionDateString) {
+    public void addTask(String taskName, String completionDateString, String project) {
         LocalDateTime completionDate;
         try {
             completionDate = LocalDateTime.parse(completionDateString, formatter);
         } catch (DateTimeParseException e) {
             completionDate = LocalDateTime.now().plusDays(1);
         }
-        tasksList.add(new Task(taskName, completionDate, LocalDateTime.now()));
+        tasksList.add(new Task(project, taskName, completionDate, LocalDateTime.now()));
     }
     public void printAllTasks() {
         for (Task aTask:tasksList) {
@@ -80,6 +80,12 @@ public class TaskList {
             if(newTaskName.length() == 0) {
                 newTaskName = taskToUpdate.getTaskName();
             }
+            System.out.print("Enter new project(default:"
+                    + taskToUpdate.getProject() + "): ");
+            String newProject = input.nextLine().trim();
+            if(newProject.length() == 0) {
+                newProject = taskToUpdate.getProject();
+            }
             System.out.print("Enter new finish date(default:"
                     + taskToUpdate.getCompletionTime() + ")(format:yyyy-MM-dd HH:mm): ");
             String newTaskCompletionTimeString = input.nextLine().trim();
@@ -93,6 +99,7 @@ public class TaskList {
             }
             taskToUpdate.setTaskName(newTaskName);
             taskToUpdate.setCompletionTime(newTaskCompletionTime);
+            taskToUpdate.setProject(newProject);
             return true;
         }
         return false;

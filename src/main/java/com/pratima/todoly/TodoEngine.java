@@ -68,9 +68,11 @@ public class TodoEngine {
     private void addTask() {
         System.out.print("Enter task name: ");
         String taskName = STDIN.nextLine();
+        System.out.println("Enter project name: ");
+        String project = STDIN.nextLine();
         System.out.print("Enter finish date(yyyy-MM-dd HH:mm)(default:24hrs): ");
         String finishDate = STDIN.nextLine();
-        taskList.addTask(taskName, finishDate);
+        taskList.addTask(taskName, finishDate, project);
         System.out.println("Task added successfully");
     }
     private void removeTask() {

@@ -14,14 +14,14 @@ class TaskListTest {
 
     @BeforeEach
     void simulateReadFromFileTest(){
-        testTaskList.addTask("testTask", "2019-11-01 00:00");
-        testTaskList.addTask("dummyTask", "");
-        testTaskList.addTask("moreTask", "2019-12-01 00:00");
+        testTaskList.addTask( "testTask", "2019-11-01 00:00", "project1");
+        testTaskList.addTask("dummyTask", "", "testProject");
+        testTaskList.addTask("moreTask", "2019-12-01 00:00", "testProject");
     }
 
     @Test
     void shouldAddToListTest() {
-        testTaskList.addTask("someOtherTestTask", "2019-11-02 00:00");
+        testTaskList.addTask("someOtherTestTask", "2019-11-02 00:00", "project");
         assertEquals(4, testTaskList.getTasksList().size());
         Task testTask = testTaskList.getTask("someOtherTestTask");
         assertEquals("someOtherTestTask", testTask.getTaskName());
