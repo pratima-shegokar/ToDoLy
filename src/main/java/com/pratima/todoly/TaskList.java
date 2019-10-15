@@ -62,6 +62,11 @@ public class TaskList {
     }
 
     public boolean markFinished(String taskName) {
+        //Alternate implementation using stream.
+        // But it will mark all the tasks with matching name as done.
+        /*return tasksList.stream()
+                .filter(task -> task.getTaskName().equals(taskName))
+                .allMatch(Task::markFinished);*/
         int taskIndex = tasksList.indexOf(new Task(taskName));
         if(taskIndex != -1){
             tasksList.get(taskIndex).markFinished();
