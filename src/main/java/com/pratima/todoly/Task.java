@@ -5,13 +5,15 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Task implements Serializable {
+    private String project;
     private String taskName;
     private LocalDateTime completionTime;
     private LocalDateTime creationTime;
     private boolean isFinished;
     private static final int PRIME_FOR_HASH_CODE = 14389;
 
-    public Task(String taskName, LocalDateTime completionTime, LocalDateTime creationTime) {
+    public Task(String project, String taskName, LocalDateTime completionTime, LocalDateTime creationTime) {
+        this.project = project;
         this.taskName = taskName;
         this.completionTime = completionTime;
         this.creationTime = creationTime;
@@ -22,6 +24,14 @@ public class Task implements Serializable {
         this.taskName = taskName;
         this.completionTime = LocalDateTime.MAX;
         this.creationTime = LocalDateTime.now();
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 
     public String getTaskName() {
@@ -58,6 +68,16 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
+        return "Task{" +
+                "project='" + project + '\'' +
+                ", taskName='" + taskName + '\'' +
+                ", completionTime=" + completionTime +
+                ", creationTime=" + creationTime +
+                ", isFinished=" + isFinished +
+                '}';
+    }
+
+    public String prettyPrint() {
         String returnValue = taskName + " - ";
         if(!isFinished) {
             returnValue += timeLeft(completionTime);
@@ -87,4 +107,6 @@ public class Task implements Serializable {
         }
         return until + " days left for this task.";
     }
+
+
 }
