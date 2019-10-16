@@ -94,11 +94,19 @@ public class TodoEngine {
      */
     private void addTask() {
         System.out.print("Enter task name: ");
-        String taskName = STDIN.nextLine();
-        System.out.println("Enter project name: ");
-        String project = STDIN.nextLine();
-        System.out.print("Enter finish date(yyyy-MM-dd HH:mm)(default:24hrs): ");
-        String finishDate = STDIN.nextLine();
+        String taskName = STDIN.nextLine().trim();
+        if(taskName.length() <= 0) {
+            System.out.println("Task name cannot be empty.");
+            return;
+        }
+        System.out.print("Enter project name: ");
+        String project = STDIN.nextLine().trim();
+        if(project.length() <= 0) {
+            System.out.println("Project cannot be empty.");
+            return;
+        }
+        System.out.print("Enter finish date(yyyy-MM-dd HH:mm)(default:+24hrs): ");
+        String finishDate = STDIN.nextLine().trim();
         taskList.addTask(taskName, finishDate, project);
         System.out.println("Task added successfully");
     }
