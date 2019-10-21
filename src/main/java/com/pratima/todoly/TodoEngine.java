@@ -66,13 +66,14 @@ public class TodoEngine {
      */
     private void updateTask() {
         System.out.print("Enter task name to update: ");
-        String taskName = STDIN.nextLine();
-        if(taskList.updateTask(taskName)) {
+        int taskId = STDIN.nextInt();
+        if(taskList.updateTask(taskId)) {
             System.out.println("Task Updated.");
         }
         else {
             System.out.println("Task does not exists!");
         }
+        STDIN.nextLine(); //Eat the enter key
     }
 
     /**
@@ -80,13 +81,14 @@ public class TodoEngine {
      */
     private void markAsDone() {
         System.out.print("Enter task name to mark it finished: ");
-        String taskName = STDIN.nextLine();
-        if(taskList.markFinished(taskName)) {
+        int taskId = STDIN.nextInt();
+        if(taskList.markFinished(taskId)) {
             System.out.println("Yay! You completed the task.");
         }
         else {
             System.out.println("Task does not exists!");
         }
+        STDIN.nextLine(); //Eat the enter key
     }
 
     /**
@@ -94,7 +96,7 @@ public class TodoEngine {
      */
     private void addTask() {
         System.out.print("Enter task name: ");
-        String taskName = STDIN.nextLine().trim();
+        String taskName = STDIN.nextLine();
         if(taskName.length() <= 0) {
             System.out.println("Task name cannot be empty.");
             return;
@@ -115,15 +117,15 @@ public class TodoEngine {
      * This function asks input for remove specific task.
      */
     private void removeTask() {
-        System.out.println("Task name to delete: ");
-        String taskName = STDIN.nextLine();
-        if (taskList.removeTask(taskName)) {
+        System.out.println("Task number to delete: ");
+        int taskId = STDIN.nextInt();
+        if (taskList.removeTask(taskId) != null) {
             System.out.println("Task Deleted");
         }
         else {
             System.out.println("No matching task found");
         }
-
+        STDIN.nextLine(); //Eat the enter key
     }
 
     /**
@@ -144,5 +146,6 @@ public class TodoEngine {
      */
     public void initializeEngine() {
         taskList = FileManager.getInstance().read();
+        Task.initializeCounter(taskList.findMaxTaskCount());
     }
 }
