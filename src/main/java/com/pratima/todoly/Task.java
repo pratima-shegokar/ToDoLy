@@ -2,7 +2,7 @@ package com.pratima.todoly;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /***
  * The class Task implements Serializable interface.
@@ -17,9 +17,12 @@ public class Task implements Serializable {
     private LocalDateTime creationTime;
     private boolean isFinished;
     private static final int PRIME_FOR_HASH_CODE = 14389;
+    private static AtomicInteger count = new AtomicInteger(0);
+    private int taskId;
 
     //Constructor for Task
     public Task(String project, String taskName, LocalDateTime completionTime, LocalDateTime creationTime) {
+        this.taskId = count.incrementAndGet();
         this.project = project;
         this.taskName = taskName;
         this.completionTime = completionTime;
@@ -33,8 +36,16 @@ public class Task implements Serializable {
         this.creationTime = LocalDateTime.now();
     }
 
+    public static void initializeCounter(int initialValue) {
+        count = new AtomicInteger(initialValue);
+    }
+
     public String getProject() {
         return project;
+    }
+
+    public int getTaskId() {
+        return taskId;
     }
 
     public void setProject(String project) {
@@ -57,13 +68,6 @@ public class Task implements Serializable {
         this.completionTime = completionTime;
     }
 
-    public LocalDateTime getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(LocalDateTime creationTime) {
-        this.creationTime = creationTime;
-    }
     /**
      * After task marked.
      * @return boolean value.
@@ -71,6 +75,7 @@ public class Task implements Serializable {
     public boolean isFinished() {
         return isFinished;
     }
+
     /**
      * After task marked.
      * @return TRUE value.
@@ -78,6 +83,7 @@ public class Task implements Serializable {
     public boolean markFinished() {
         return isFinished = true;
     }
+
     /**
      * Overriding toString() method
      * Returns a String representation of this ToDoList.
@@ -91,24 +97,10 @@ public class Task implements Serializable {
                 ", completionTime=" + completionTime +
                 ", creationTime=" + creationTime +
                 ", isFinished=" + isFinished +
+                ", taskId=" + taskId +
                 '}';
     }
 
-    /**
-     * This function print pretty way task info.
-     * @return taskName with time or message.
-     */
-
-    public String prettyPrint() {
-        String returnValue = taskName + " - ";
-        if(!isFinished) {
-            returnValue += timeLeft(completionTime);
-        }
-        else {
-            returnValue += " the task is completed!";
-        }
-        return returnValue;
-    }
     /**
      * Overriding equals() method
      * @param obj In the method using object of task
@@ -128,23 +120,4 @@ public class Task implements Serializable {
     public int hashCode() {
         return PRIME_FOR_HASH_CODE * taskName.length();
     }
-
-    /**
-     * This function calculate time remaining for complete the task.
-     * @param dateTime Encapsulate a Date and Time. The datetime is stored as a
-     *                 timestamp and may be persisted as a timestamp.
-     *
-     * See Also:
-     * @return Hours which left for the task.
-     */
-    private String timeLeft(LocalDateTime dateTime) {
-        LocalDateTime now = LocalDateTime.now();
-        long until = now.until(dateTime, ChronoUnit.DAYS);
-        if (until <= 1) {
-            return now.until(dateTime, ChronoUnit.HOURS) + " hours left for this task.";
-        }
-        return until + " days left for this task.";
-    }
-
-
 }

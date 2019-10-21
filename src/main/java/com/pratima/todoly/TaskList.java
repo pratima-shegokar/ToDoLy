@@ -3,10 +3,8 @@ package com.pratima.todoly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
+import java.util.*;
+
 /***
  *  Provides a very simple ToDoList(todoly) with Project,TaskName,Date and time.
  *  New items can be added at the end and removed from any other position.
@@ -64,31 +62,26 @@ public class TaskList {
 
     /***
      * Remove specific task from the list.
-     * @param taskName The name of the task that want to remove from list.
+     * @param taskId The id of the task that want to remove from list.
      * @return boolean value whether task removed or not.
      */
-    public boolean removeTask(String taskName){
-        //TODO:return tasksList.remove(new Task(taskName)); another implementation.
-        List<Task> newTaskList = tasksList.stream()
-                .filter(task -> !task.getTaskName().equalsIgnoreCase(taskName))
-                .collect(Collectors.toList());
-        if (newTaskList.size() < tasksList.size()) {
-            tasksList = newTaskList;
-            return true;
+    public Task removeTask(int taskId){
+        Task taskToDelete = getTask(taskId);
+        if(tasksList.remove(taskToDelete)) {
+            return taskToDelete;
         }
-        return false;
+        return null;
     }
 
     /***
      * Mark specific task from the list as Finished.
-     * @param taskName The name of the task that want to Marked.
+     * @param taskId The name of the task that want to Marked.
      * @return boolean value whether task marked or not.
      */
-    public boolean markFinished(String taskName) {
-        int taskIndex = tasksList.indexOf(new Task(taskName));
-        if(taskIndex != -1){
-            tasksList.get(taskIndex).markFinished();
-            return true;
+    public boolean markFinished(int taskId) {
+        Task taskToBeMarkedAsFinished = getTask(taskId);
+        if (taskToBeMarkedAsFinished != null) {
+            return taskToBeMarkedAsFinished.markFinished();
         }
         return false;
     }
@@ -96,30 +89,27 @@ public class TaskList {
     /***
      * Update specific task from the list which name is matching with taskName.
      * or just update one field.
-     * @param taskName The name of the task that which should update.
+     * @param taskId The name of the task that which should update.
      * @return boolean value whether task updated or not.
      */
-    public boolean updateTask(String taskName) {
+    public boolean updateTask(int taskId) {
         Scanner input = new Scanner(System.in);
-        Task taskToUpdate = getTask(taskName);
+        Task taskToUpdate = getTask(taskId);
         if(taskToUpdate != null){
             //Update taskName
-            System.out.print("Enter new title(default:"
-                    + taskToUpdate.getTaskName() + "): ");
+            System.out.print("Enter new title(default:" + taskToUpdate.getTaskName() + "): ");
             String newTaskName = input.nextLine().trim();
             if(newTaskName.length() == 0) {
                 newTaskName = taskToUpdate.getTaskName();
             }
             //Update Project
-            System.out.print("Enter new project(default:"
-                    + taskToUpdate.getProject() + "): ");
+            System.out.print("Enter new project(default:" + taskToUpdate.getProject() + "): ");
             String newProject = input.nextLine().trim();
             if(newProject.length() == 0) {
                 newProject = taskToUpdate.getProject();
             }
             //Update Date and Time
-            System.out.print("Enter new finish date(default:"
-                    + taskToUpdate.getCompletionTime() + ")(format:yyyy-MM-dd HH:mm): ");
+            System.out.print("Enter new finish date(default:" + taskToUpdate.getCompletionTime() + ")(format:yyyy-MM-dd HH:mm): ");
             String newTaskCompletionTimeString = input.nextLine().trim();
             LocalDateTime newTaskCompletionTime;
             //TODO:Completion Date formatting should be delegated to Task
@@ -139,14 +129,20 @@ public class TaskList {
 
     /***
      * Get task by taskName in the list.
-     * @param taskName the name of the task which we are finding in the list.
+     * @param taskId the name of the task which we are finding in the list.
      * @return Task if found else null
      */
-    public Task getTask(String taskName){
-        int taskIndex = tasksList.indexOf(new Task(taskName));
-        if(taskIndex != -1){
-            return tasksList.get(taskIndex);
-        }
-        return null;
+    public Task getTask(int taskId){
+        return tasksList.stream()
+                .filter(task -> taskId == task.getTaskId())
+                .findAny()
+                .orElse(null);
+    }
+
+    public int findMaxTaskCount() {
+        return tasksList.stream()
+                .max(Comparator.comparing(Task::getTaskId))
+                .map(Task::getTaskId)
+                .orElse(0);
     }
 }
