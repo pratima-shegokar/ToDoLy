@@ -136,4 +136,8 @@ public class Task implements Serializable {
         }
         return until + " days left for this task.";
     }
+
+    public String defaultPrint() {
+        return String.format("%-3s %-20s %-50s %s", taskId, project, taskName, timeLeft(completionTime));
+    }
 }
