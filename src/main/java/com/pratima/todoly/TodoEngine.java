@@ -1,6 +1,8 @@
 package com.pratima.todoly;
 
+import java.util.Comparator;
 import java.util.Scanner;
+
 import static java.lang.System.exit;
 
 /***
@@ -37,7 +39,7 @@ public class TodoEngine {
             chosenOption = STDIN.nextLine().trim();
             switch (chosenOption) {
                 case "1":
-                    taskList.printAllTasks();
+                    printMenu();
                     break;
                 case "2":
                     addTask();
@@ -59,6 +61,36 @@ public class TodoEngine {
                     System.out.println("Invalid Option Chosen!");
             }
         } while (true);//catch input mismatch exception
+    }
+
+    private void printMenu() {
+        System.out.println("1. Default printing");
+        System.out.println("2. Print tasks by finish date Ascending");
+        System.out.println("3. Print tasks by finish date Descending");
+        System.out.println("4. Print tasks by project name Ascending");
+        System.out.println("5. Print tasks by project name Descending");
+        System.out.println("Your Choice: ");
+        int printOption = STDIN.nextInt();
+        switch (printOption) {
+            case 1:
+                taskList.printAllTasks();
+                break;
+            case 2:
+                taskList.filterPrint(Comparator.comparingInt((Task a) -> a.getCompletionTime().getMinute()).reversed());
+                break;
+            case 3:
+                taskList.filterPrint(Comparator.comparingInt((Task a) -> a.getCompletionTime().getMinute()));
+                break;
+            case 4:
+                taskList.filterPrint(Comparator.comparing(Task::getProject));
+                break;
+            case 5:
+                taskList.filterPrint(Comparator.comparing(Task::getProject).reversed());
+                break;
+            default:
+                System.out.println("Invalid Option!");
+        }
+        STDIN.nextLine();//eat up the newline character
     }
 
     /**

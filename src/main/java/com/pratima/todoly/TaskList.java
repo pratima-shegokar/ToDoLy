@@ -146,4 +146,9 @@ public class TaskList {
                 .map(Task::getTaskId)
                 .orElse(0);
     }
+
+    public void filterPrint(Comparator comparison) {
+        tasksList.sort(comparison);
+        printAllTasks();
+    }
 }
