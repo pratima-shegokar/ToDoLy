@@ -69,6 +69,7 @@ public class TodoEngine {
         System.out.println("3. Print tasks by finish date Descending");
         System.out.println("4. Print tasks by project name Ascending");
         System.out.println("5. Print tasks by project name Descending");
+        System.out.println("6. Grouped by project");
         System.out.println("Your Choice: ");
         int printOption = STDIN.nextInt();
         switch (printOption) {
@@ -86,6 +87,9 @@ public class TodoEngine {
                 break;
             case 5:
                 taskList.filterPrint(Comparator.comparing(Task::getProject).reversed());
+                break;
+            case 6:
+                taskList.printByProject();
                 break;
             default:
                 System.out.println("Invalid Option!");

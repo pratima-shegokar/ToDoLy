@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.pratima.todoly.Color.DEFAULT;
 
 /***
  *  Provides a very simple ToDoList(todoly) with Project,TaskName,Date and time.
@@ -150,5 +153,15 @@ public class TaskList {
     public void filterPrint(Comparator comparison) {
         tasksList.sort(comparison);
         printAllTasks();
+    }
+
+    public void printByProject() {
+        Map<String, List<Task>> groupOfProjects = tasksList.stream().collect(Collectors.groupingBy(Task::getProject));
+        for(String project:groupOfProjects.keySet()) {
+            Color aColor = Color.randomColor();
+            for(Task task:groupOfProjects.get(project)) {
+                System.out.println(aColor + task.defaultPrint() + DEFAULT);
+            }
+        }
     }
 }
