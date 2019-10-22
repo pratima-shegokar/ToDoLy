@@ -55,6 +55,7 @@ public class TaskList {
      * Print all tasks from the list
      */
     public void printAllTasks() {
+        System.out.println(String.format("%-3s %-20s %-50s %s", "ID", "PROJECT", "TASK NAME", "TIME LEFT FOR THE TASK"));
         for (Task aTask:tasksList) {
             System.out.println(aTask);
         }
