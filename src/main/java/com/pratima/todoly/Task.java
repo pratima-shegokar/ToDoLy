@@ -2,6 +2,7 @@ package com.pratima.todoly;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /***
@@ -91,14 +92,9 @@ public class Task implements Serializable {
      */
     @Override
     public String toString() {
-        return "Task{" +
-                "project='" + project + '\'' +
-                ", taskName='" + taskName + '\'' +
-                ", completionTime=" + completionTime +
-                ", creationTime=" + creationTime +
-                ", isFinished=" + isFinished +
-                ", taskId=" + taskId +
-                '}';
+        if(isFinished)
+            return String.format(Color.GREEN + "%-3s %-20s %-50s %s" + Color.DEFAULT, taskId, project, taskName, timeLeft(completionTime));
+        return String.format(Color.RED + "%-3s %-20s %-50s %s" + Color.DEFAULT, taskId, project, taskName, timeLeft(completionTime));
     }
 
     /**
@@ -119,5 +115,25 @@ public class Task implements Serializable {
     @Override
     public int hashCode() {
         return PRIME_FOR_HASH_CODE * taskName.length();
+    }
+
+    /**
+     * This function calculate time remaining for complete the task.
+     * @param dateTime Encapsulate a Date and Time. The datetime is stored as a
+     *                 timestamp and may be persisted as a timestamp.
+     *
+     * See Also:
+     * @return Hours which left for the task.
+     */
+    private String timeLeft(LocalDateTime dateTime) {
+        LocalDateTime now = LocalDateTime.now();
+        if(now.isAfter(dateTime)) {
+            return dateTime.until(dateTime, ChronoUnit.HOURS) + " hours elapsed.";
+        }
+        long until = now.until(dateTime, ChronoUnit.DAYS);
+        if (until <= 1) {
+            return now.until(dateTime, ChronoUnit.HOURS) + " hours left for this task.";
+        }
+        return until + " days left for this task.";
     }
 }
