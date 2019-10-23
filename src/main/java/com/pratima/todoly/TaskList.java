@@ -58,7 +58,7 @@ public class TaskList {
      * Print all tasks from the list
      */
     public void printAllTasks() {
-        System.out.println(String.format("%-3s %-20s %-50s %s", "ID", "PROJECT", "TASK NAME", "TIME LEFT FOR THE TASK"));
+        System.out.println(String.format("%-3s %-20s %-50s %-30s %s", "ID", "PROJECT", "TASK NAME", "COMPLETION DATE", "TIME LEFT FOR THE TASK"));
         for (Task aTask:tasksList) {
             System.out.println(aTask);
         }
@@ -156,6 +156,7 @@ public class TaskList {
     }
 
     public void printByProject() {
+        System.out.println(String.format("%-3s %-20s %-50s %-30s %s", "ID", "PROJECT", "TASK NAME", "COMPLETION DATE", "TIME LEFT FOR THE TASK"));
         Map<String, List<Task>> groupOfProjects = tasksList.stream().collect(Collectors.groupingBy(Task::getProject));
         for(String project:groupOfProjects.keySet()) {
             Color aColor = Color.randomColor();

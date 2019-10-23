@@ -2,6 +2,7 @@ package com.pratima.todoly;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -93,8 +94,12 @@ public class Task implements Serializable {
     @Override
     public String toString() {
         if(isFinished)
-            return String.format(Color.GREEN + "%-3s %-20s %-50s %s" + Color.DEFAULT, taskId, project, taskName, timeLeft(completionTime));
-        return String.format(Color.RED + "%-3s %-20s %-50s %s" + Color.DEFAULT, taskId, project, taskName, timeLeft(completionTime));
+            return String.format(Color.GREEN + "%-3s %-20s %-50s %-30s %s" + Color.DEFAULT, taskId, project, taskName, formattedDate(completionTime), timeLeft(completionTime));
+        return String.format(Color.RED + "%-3s %-20s %-50s %-30s %s" + Color.DEFAULT, taskId, project, taskName, formattedDate(completionTime), timeLeft(completionTime));
+    }
+
+    private String formattedDate(LocalDateTime completionTime) {
+        return completionTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     /**
@@ -143,6 +148,6 @@ public class Task implements Serializable {
     }
 
     public String defaultPrint() {
-        return String.format("%-3s %-20s %-50s %s", taskId, project, taskName, timeLeft(completionTime));
+        return String.format("%-3s %-20s %-50s %-30s %s", taskId, project, taskName, formattedDate(completionTime), timeLeft(completionTime));
     }
 }
