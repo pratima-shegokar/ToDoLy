@@ -101,7 +101,7 @@ public class TodoEngine {
      * This function asks input for Update field
      */
     private void updateTask() {
-        System.out.print("Enter task name to update: ");
+        System.out.print("Enter task id to update: ");
         int taskId = STDIN.nextInt();
         if(taskList.updateTask(taskId)) {
             System.out.println("Task Updated.");
@@ -116,7 +116,7 @@ public class TodoEngine {
      * This function asks input for mark don the task.
      */
     private void markAsDone() {
-        System.out.print("Enter task name to mark it finished: ");
+        System.out.print("Enter task id to mark it finished: ");
         int taskId = STDIN.nextInt();
         if(taskList.markFinished(taskId)) {
             System.out.println("Yay! You completed the task.");

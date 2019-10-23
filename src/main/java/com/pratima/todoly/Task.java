@@ -126,6 +126,8 @@ public class Task implements Serializable {
      * @return Hours which left for the task.
      */
     private String timeLeft(LocalDateTime dateTime) {
+        if(isFinished)
+            return "Task is completed.";
         LocalDateTime now = LocalDateTime.now();
         if(now.isAfter(dateTime)) {
             return dateTime.until(dateTime, ChronoUnit.HOURS) + " hours elapsed.";
