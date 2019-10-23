@@ -130,7 +130,10 @@ public class Task implements Serializable {
             return "Task is completed.";
         LocalDateTime now = LocalDateTime.now();
         if(now.isAfter(dateTime)) {
-            return dateTime.until(dateTime, ChronoUnit.HOURS) + " hours elapsed.";
+            long until = dateTime.until(now, ChronoUnit.HOURS);
+            if(until <= 1)
+                return dateTime.until(now, ChronoUnit.HOURS) + " hours elapsed";
+            return dateTime.until(now, ChronoUnit.DAYS) + " days elapsed.";
         }
         long until = now.until(dateTime, ChronoUnit.DAYS);
         if (until <= 1) {
